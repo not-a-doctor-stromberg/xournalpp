@@ -42,6 +42,8 @@
 #include "util/StringUtils.h"
 #include "util/XojMsgBox.h"
 #include "util/safe_casts.h"
+#include "control/tools/PdfElemSelection.h"
+#include "gui/PdfFloatingToolbox.h"
 
 /**
  * Renames file 'from' to file 'to' in the file system.
@@ -1723,6 +1725,18 @@ static int applib_export(lua_State* L) {
 }
 
 
+static int applib_getSelectedTextFromPdf(lua_State* L) {
+    Plugin* plugin = Plugin::getPluginFromLua(L);
+    Control* control = plugin->getControl();
+    auto* pdfToolBox = control->getWindow()->getPdfToolbox();
+
+    // 1. Use PdfFloatingToolbox::getSelection() to get
+    // 1.1 in PageView.cpp around 
+    pdfToolBox->getSelection();
+
+    return 0; 
+}
+
 /*
  * The full Lua Plugin API.
  * See above for example usage of each function.
@@ -1755,6 +1769,7 @@ static const luaL_Reg applib[] = {{"msgbox", applib_msgbox},
                                   {"addSplines", applib_addSplines},
                                   {"getFilePath", applib_getFilePath},
                                   {"refreshPage", applib_refreshPage},
+                                  {"getSelectedTextFromPdf", applib_getSelectedTextFromPdf},
                                   // Placeholder
                                   //	{"MSG_BT_OK", nullptr},
 
