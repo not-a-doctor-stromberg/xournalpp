@@ -1730,11 +1730,10 @@ static int applib_getSelectedTextFromPdf(lua_State* L) {
     Control* control = plugin->getControl();
     auto* pdfToolBox = control->getWindow()->getPdfToolbox();
 
-    // 1. Use PdfFloatingToolbox::getSelection() to get
-    // 1.1 in PageView.cpp around 
-    pdfToolBox->getSelection();
+    // [ARS] [TODO] for some reason this is giving nil back to lua
+    lua_pushstring(L, pdfToolBox->getSelection()->getSelectedText().c_str());
 
-    return 0; 
+    return 1; 
 }
 
 /*
